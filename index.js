@@ -148,11 +148,11 @@ app.post('/test', async (req, res) => {
             , '--user-agent=${agent}'
             ] } );
             await browser.newPage()
-            .then(page => {
+            .then(async page => {
                 await page.goto(url, { waitUntil: 'networkidle0' })
-                .then(
+                .then( async () => {
                     await page.evaluate(() => document.body.innerHTML)
-                    .then(bodyHTML => {
+                    .then(async bodyHTML => {
                         const parser = new DomParser()
                         const dom = parser.parseFromString(bodyHTML)
                         const title = getTitle(dom)
@@ -164,11 +164,13 @@ app.post('/test', async (req, res) => {
                             imageURL: imageURL
                         }  
                     })
-                    .then(result => {
+                    .then(async result => {
                         res.send(JSON.stringify(result))
                         await browser.close();
                     })
                     .catch(error => console.log("error"))
+                }
+                    
                 )
                 .catch(error => console.log("error"))
             })
