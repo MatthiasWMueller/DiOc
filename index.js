@@ -3,6 +3,11 @@ const DomParser = require('dom-parser');
 const puppeteer = require('puppeteer');
 var request = require('request');
 
+
+///////////////////////////
+// digital ocean 
+///////////////////////////
+
 const app = express();
 // middleware
 
@@ -116,8 +121,11 @@ app.post('/getInfo', async (req, res) => {
 				price: price,
 				imageURL: imageURL
 			} 
-            await browser.close();
+            
             res.send(JSON.stringify(result))
+
+            await browser.close();
+            
           })();      
     } catch (error) {
         const result = {
@@ -129,6 +137,29 @@ app.post('/getInfo', async (req, res) => {
     }
 })
 
+
+
+
+
+app.post('/test', async (req, res) => {
+    const url = decodeURIComponent(req.body.url)
+    var agent = userAgents[Math.floor(Math.random() * userAgents.length)];
+    try {
+        const result = {
+            title: "moin",
+            price: "moin",
+            imageURL: "moin"
+        }
+            res.send(JSON.stringify(result))
+    } catch (error) {
+        const result = {
+            title: "error",
+            price: "error",
+            imageURL: "error"
+        } 
+        res.send(JSON.stringify(result))
+    }
+})
 //////////////////// functions
 
 
