@@ -149,28 +149,12 @@ app.post('/test', async (req, res) => {
             ] } );
             await browser.newPage()
             .then(async page => {
-                await page.goto(url, { waitUntil: 'networkidle0' })
-                return page
-                .then( async () => {
-                    await page.evaluate(() => document.body.innerHTML)
-                    .then(async bodyHTML => {
-                        const parser = new DomParser()
-                        const dom = parser.parseFromString(bodyHTML)
-                        const title = getTitle(dom)
-                        const price = getPrice(dom)
-                        const imageURL = getImageUrl(dom)	
-                        let result = {
-                            title: title,
-                            price: price,
-                            imageURL: imageURL
-                        }  
-                        res.send(JSON.stringify(result))
-                    })
-                    .catch(error => console.log("error"))
-                }
-                    
-                )
-                .catch(error => console.log("error"))
+                const result = {
+                    title: "OK",
+                    price: "OK",
+                    imageURL: "OK"
+                } 
+                res.send(JSON.stringify(result))
             })
             .catch(error => console.log("error"))
             
