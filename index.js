@@ -121,11 +121,8 @@ app.post('/getInfo', async (req, res) => {
 				price: price,
 				imageURL: imageURL
 			} 
-            
-            res.send(JSON.stringify(result))
-
             await browser.close();
-            
+            res.send(JSON.stringify(result))
           })();      
     } catch (error) {
         const result = {
@@ -145,12 +142,42 @@ app.post('/test', async (req, res) => {
     const url = decodeURIComponent(req.body.url)
     var agent = userAgents[Math.floor(Math.random() * userAgents.length)];
     try {
-        const result = {
-            title: "moin",
-            price: "moin",
-            imageURL: "moin"
-        }
-            res.send(JSON.stringify(result))
+        (async () => {
+            const browser = await puppeteer.launch({ args: ['--no-sandbox'
+            , '--disable-setuid-sandbox'
+            , '--user-agent=${agent}'
+            ] } );
+            await browser.newPage()
+            .then(page => {
+                await page.goto(url, { waitUntil: 'networkidle0' })
+                .then(
+                    await page.evaluate(() => document.body.innerHTML)
+                    .then(bodyHTML => {
+                        const parser = new DomParser()
+                        const dom = parser.parseFromString(bodyHTML)
+                        const title = getTitle(dom)
+                        const price = getPrice(dom)
+                        const imageURL = getImageUrl(dom)	
+                        return {
+                            title: title,
+                            price: price,
+                            imageURL: imageURL
+                        }  
+                    })
+                    .then(result => {
+                        res.send(JSON.stringify(result))
+                        await browser.close();
+                    })
+                    .catch(error => console.log("error"))
+                )
+                .catch(error => console.log("error"))
+            })
+            .catch(error => console.log("error"))
+            
+        
+                
+            
+          })();    
     } catch (error) {
         const result = {
             title: "error",
