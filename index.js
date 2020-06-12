@@ -166,7 +166,7 @@ app.post('/test', async (req, res) => {
                     })
                     .then(async result => {
                         res.send(JSON.stringify(result))
-                        await browser.close();
+                    //    await browser.close();
                     })
                     .catch(error => console.log("error"))
                 }
