@@ -150,6 +150,7 @@ app.post('/test', async (req, res) => {
             await browser.newPage()
             .then(async page => {
                 await page.goto(url, { waitUntil: 'networkidle0' })
+                return page
                 .then( async () => {
                     await page.evaluate(() => document.body.innerHTML)
                     .then(async bodyHTML => {
@@ -158,15 +159,12 @@ app.post('/test', async (req, res) => {
                         const title = getTitle(dom)
                         const price = getPrice(dom)
                         const imageURL = getImageUrl(dom)	
-                        return {
+                        let result = {
                             title: title,
                             price: price,
                             imageURL: imageURL
                         }  
-                    })
-                    .then(async result => {
                         res.send(JSON.stringify(result))
-                    //    await browser.close();
                     })
                     .catch(error => console.log("error"))
                 }
