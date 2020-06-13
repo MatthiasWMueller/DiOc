@@ -72,7 +72,7 @@ app.post('/getPrice', async (req, res) => {
     var agent = userAgents[Math.floor(Math.random() * userAgents.length)];
     try {
         (async () => {
-            const browser = await puppeteer.launch({ args: ['--no-sandbox'
+            const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'
             , '--disable-setuid-sandbox'
             , '--user-agent=${agent}'
             ] } );
@@ -103,7 +103,7 @@ app.post('/getInfo', async (req, res) => {
     var agent = userAgents[Math.floor(Math.random() * userAgents.length)];
     try {
         (async () => {
-            const browser = await puppeteer.launch({ args: ['--no-sandbox'
+            const browser = await puppeteer.launch({headless: true, args: ['--no-sandbox'
             , '--disable-setuid-sandbox'
             , '--user-agent=${agent}'
             ] } );
@@ -143,7 +143,7 @@ app.post('/test', async (req, res) => {
     var agent = userAgents[Math.floor(Math.random() * userAgents.length)];
     try {
         (async () => {
-            const browser = await puppeteer.launch({ args: ['--no-sandbox'
+            const browser = await puppeteer.launch({headless: true,  args: ['--no-sandbox'
             , '--disable-setuid-sandbox'
             , '--user-agent=${agent}'
             ] } );
