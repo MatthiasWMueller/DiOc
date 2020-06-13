@@ -70,6 +70,7 @@ app.post('/getPrice_zen', async (req, res) => {           // result: undefined ?
 app.post('/getPrice', async (req, res) => {            
     const url = decodeURIComponent(req.body.url)
     var agent = userAgents[Math.floor(Math.random() * userAgents.length)];
+    console.log(agent)
     try {
         (async () => {
             const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'
