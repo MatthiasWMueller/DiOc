@@ -39,6 +39,7 @@ let locations = ["eu", "na"]
 
 app.post('/getPrice_zen', async (req, res) => {           // result: undefined ????
     const url = decodeURIComponent(req.body.url)
+    console.log(url)
     var location = locations[Math.floor(Math.random() * locations.length)];
     const key = "2e4a0950-ab24-11ea-9bcd-4d4684ddfa61"
     try {
